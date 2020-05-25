@@ -1,16 +1,18 @@
 <template>
   <div id="app">
+    <Input />
     <Canvas />
   </div>
 </template>
 
 <script>
+import Input from "./components/Input.vue";
 import Canvas from "./components/Canvas.vue";
 
 export default {
-  name: "App",
   components: {
-    Canvas
+    Canvas,
+    Input
   }
 };
 </script>
@@ -22,7 +24,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: #223889;
+  background: rgb(222, 255, 252);
 }
 body {
   margin: 0;

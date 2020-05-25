@@ -56,7 +56,7 @@ export default {
       this.ctx.lineJoin = "round";
       this.ctx.lineWidth = 6;
       this.ctx.lineCap = "round";
-      this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 50%)`;
+      this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 85%)`;
 
       this.ctx.beginPath();
       let lineToX;
