@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <canvas
-      ref="canvas"
-      @mousemove="draw"
-      @mousedown="startDrawing"
-      @mouseup="stopDrawing"
-      @mouseout="stopDrawing"
-      @touchmove="draw"
-      @touchstart="startDrawing"
-      @touchend="stopDrawing"
-      @touchcancel="stopDrawing"
-    ></canvas>
-  </div>
+  <canvas
+    ref="canvas"
+    @mousemove="draw"
+    @mousedown="startDrawing"
+    @mouseup="stopDrawing"
+    @mouseout="stopDrawing"
+    @touchmove="draw"
+    @touchstart="startDrawing"
+    @touchend="stopDrawing"
+    @touchcancel="stopDrawing"
+  ></canvas>
 </template>
 
 <script>
@@ -24,7 +22,6 @@ export default {
       lastX: null,
       lastY: null,
       hue: 0,
-      randomNumber: Math.random()
     };
   },
 
@@ -32,31 +29,34 @@ export default {
     startDrawing() {
       this.isDrawing = true;
     },
+
     stopDrawing() {
       this.isDrawing = false;
       this.lastX = null;
       this.lastY = null;
     },
+
     handleResize() {
       this.canvas.height = window.innerHeight;
       this.canvas.width = window.innerWidth;
-      this.loadImage()
-        .then(img => {
-          this.ctx.drawImage(
-            img,
-            window.innerWidth / 2 - 150,
-            window.innerHeight / 2 - 150
-          );
-        })
-        .catch(err => console.error(err));
+      // this.loadImage()
+      //   .then(img => {
+      //     this.ctx.drawImage(
+      //       img,
+      //       window.innerWidth / 2 - 150,
+      //       window.innerHeight / 2 - 150
+      //     );
+      //   })
+      //   .catch(err => console.error(err));
     },
+
     draw(e) {
       if (!this.isDrawing) return;
 
       this.ctx.lineJoin = "round";
       this.ctx.lineWidth = 6;
       this.ctx.lineCap = "round";
-      this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 85%)`;
+      this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 84%)`;
 
       this.ctx.beginPath();
       let lineToX;
@@ -84,33 +84,35 @@ export default {
       }
     },
 
-    loadImage() {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
+    // loadImage() {
+    //   return new Promise((resolve, reject) => {
+    //     const img = new Image();
 
-        img.addEventListener("load", () => resolve(img));
-        img.addEventListener("error", err => reject(err));
-        img.src = `https://api.adorable.io/avatars/300/${this.randomNumber}`;
-      });
-    }
+    //     img.addEventListener("load", () => resolve(img));
+    //     img.addEventListener("error", err => reject(err));
+    //     img.src = `https://api.adorable.io/avatars/300/${this.randomNumber}`;
+    //   });
+    // },
   },
 
   mounted() {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
 
-    this.canvas.height = window.innerHeight;
-    this.canvas.width = window.innerWidth;
-
-    this.loadImage()
-      .then(img => {
-        this.ctx.drawImage(
-          img,
-          window.innerWidth / 2 - 150,
-          window.innerHeight / 2 - 150
-        );
-      })
-      .catch(err => console.error(err));
+    // this.canvas.height = window.innerHeight /2;
+    // this.canvas.width = window.innerWidth/2;
+    this.canvas.height = 300;
+    this.canvas.width = 300;
+    // this.loadImage()
+    // .then(img => {
+    //   console.log(this.hideImage)
+    //     this.ctx.drawImage(
+    //       img,
+    //       window.innerWidth / 2 - 150,
+    //       window.innerHeight / 2 - 150
+    //     );
+    // })
+    // .catch(err => console.error(err));
 
     window.addEventListener("resize", this.handleResize);
   },
@@ -120,6 +122,7 @@ export default {
   }
 };
 </script>
+
 
 
 
