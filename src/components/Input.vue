@@ -1,8 +1,15 @@
 <template>
-<div class="form__group field">
-  <input type="input" class="form__field" placeholder="Search for an image" name="name" id='name' required />
-  <label for="name" class="form__label">Search for an image</label>
-</div>
+  <div class="form__group field">
+    <input
+      type="input"
+      class="form__field"
+      placeholder="Search for an image"
+      name="name"
+      id="name"
+      required
+    />
+    <label for="name" class="form__label">Search for an image</label>
+  </div>
 </template>
 
 <script>
@@ -19,12 +26,8 @@ $secondary: #38ef7d;
 $white: #fff;
 $gray: #9b9b9b;
 .form__group {
-  position: absolute;
-  top: 30px;
-  left: 30px;
   padding: 15px 0 0;
   margin-top: 10px;
-  width: 30%;
 }
 
 .form__field {
@@ -33,7 +36,7 @@ $gray: #9b9b9b;
   border: 0;
   border-bottom: 2px solid $gray;
   outline: 0;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: $primary;
   padding: 7px 0;
   background: transparent;
@@ -44,7 +47,7 @@ $gray: #9b9b9b;
   }
 
   &:placeholder-shown ~ .form__label {
-    font-size: 1.3rem;
+    font-size: 1rem;
     cursor: text;
     top: 20px;
   }
@@ -67,27 +70,30 @@ $gray: #9b9b9b;
     transition: 0.2s;
     font-size: 1rem;
     color: $primary;
-    font-weight:700;    
+    font-weight: 700;
   }
-  padding-bottom: 6px;  
+  padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  border-image: linear-gradient(to right, $primary,$secondary);
+  border-image: linear-gradient(to right, $primary, $secondary);
   border-image-slice: 1;
 }
 /* reset input */
-.form__field{
-  &:required,&:invalid { box-shadow:none; }
+.form__field {
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
 }
 /* demo */
 body {
-  font-family: 'Poppins', sans-serif; 
+  font-family: "Poppins", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   font-size: 1.5rem;
-  background-color:#222222;
+  background-color: #222222;
 }
 </style>

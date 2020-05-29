@@ -21,7 +21,7 @@ export default {
       isDrawing: false,
       lastX: null,
       lastY: null,
-      hue: 0,
+      hue: 0
     };
   },
 
@@ -37,8 +37,11 @@ export default {
     },
 
     handleResize() {
-      this.canvas.height = window.innerHeight;
-      this.canvas.width = window.innerWidth;
+      // this.canvas.height = window.innerHeight;
+      // this.canvas.width = window.innerWidth;
+
+      this.canvas.height = 300;
+      this.canvas.width = 300;
       // this.loadImage()
       //   .then(img => {
       //     this.ctx.drawImage(
@@ -49,6 +52,26 @@ export default {
       //   })
       //   .catch(err => console.error(err));
     },
+
+    // draw(e) {
+    //   if (!this.isDrawing) return;
+
+    //   this.ctx.lineJoin = "round";
+    //   this.ctx.lineWidth = 1;
+    //   this.ctx.lineCap = "round";
+
+    //   this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 50%)`;
+    //   this.ctx.lineTo(e.offsetX, e.offsetY);
+    //   this.ctx.stroke();
+    //   this.ctx.beginPath();
+    //   //this.ctx.moveTo(this.lastX, this.lastY); //this is awesome
+    //   this.ctx.moveTo(e.offsetX, e.offsetY);
+
+    //   this.hue++;
+    //   if (this.hue >= 360) {
+    //     this.hue = 0;
+    //   }
+    // },
 
     draw(e) {
       if (!this.isDrawing) return;
@@ -82,7 +105,7 @@ export default {
       if (this.hue >= 360) {
         this.hue = 0;
       }
-    },
+    }
 
     // loadImage() {
     //   return new Promise((resolve, reject) => {

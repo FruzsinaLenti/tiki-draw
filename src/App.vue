@@ -1,52 +1,52 @@
 <template>
   <div id="app">
+    <TikiBackground class="background" />
     <ControlPanel @toggle-background="onToggleBackground" />
     <div class="canvas-container">
-      <img v-if="!hideImage" :src="imageUrl" class="background-image" />
-      <Canvas class="canvas" />
+      <img v-show="!hideImage" :src="imageUrl" class="background-image" />
+      <Canvas class="canvas-wrapper" />
     </div>
-
   </div>
 </template>
 
 <script>
 import ControlPanel from "./components/ControlPanel.vue";
 import Canvas from "./components/Canvas.vue";
+import TikiBackground from "./components/TikiBackground.vue";
 
 export default {
   components: {
     Canvas,
-    ControlPanel
+    ControlPanel,
+    TikiBackground
   },
 
   data() {
     return {
       randomNumber: Math.random(),
-      hideImage: false,
+      hideImage: false
     };
   },
 
   watch: {
     hideImage: {
       handler() {
-        this.hasError = false
-      },
-    },
+        this.hasError = false;
+      }
+    }
   },
 
   computed: {
     imageUrl() {
-      return`https://api.adorable.io/avatars/300/${this.randomNumber}`;
+      return `https://api.adorable.io/avatars/300/${this.randomNumber}`;
     }
   },
 
   methods: {
     onToggleBackground() {
-      console.log(this.hideImage)
-      this.hideImage = !this.hideImage
-    },
-
-  },
+      this.hideImage = !this.hideImage;
+    }
+  }
 };
 </script>
 
@@ -56,25 +56,30 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  /* background: rgb(222, 255, 252); */
+  width: 100%;
 }
 body {
   margin: 0;
   overflow: hidden;
 }
 
-.canvas-container {
-  background: rgba(122,122,122,0.5);
+.background {
+  position: absolute;
+  display: grid;
+  grid-template-rows: 40% 50%;
+  grid-template-columns: 300px 350px auto;
 }
 
-.background-image {
-  position: absolute;
-  top: 303px;
-}
-.canvas {
+.canvas-container {
   position: relative;
-  top: 303px;
-  background: rgba(22,22,22,0.5);
+  float: left;
+  left: 30%;
+  top: 200px;
+}
+
+.canvas-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>
