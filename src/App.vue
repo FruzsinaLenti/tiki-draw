@@ -3,7 +3,7 @@
     <TikiBackground class="background" />
     <ControlPanel @toggle-background="onToggleBackground" @anime='setImageUrl' />
     <div class="canvas-container">
-      <img v-show="!hideImage" :src="imageUrl" class="background-image" />
+      <img :src="imageUrl" class="background-image" :class="{'hide': hideImage }" />
       <Canvas class="canvas-wrapper" />
     </div>
   </div>
@@ -79,5 +79,9 @@ body {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.hide {
+  opacity: 0;
 }
 </style>
