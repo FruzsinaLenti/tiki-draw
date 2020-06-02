@@ -14,6 +14,34 @@
 
 <script>
 export default {
+  props: {
+    height: {
+      type: Number,
+      default: 300
+    },
+
+    width: {
+      type: Number,
+      default: 300
+
+    }
+  },
+
+  watch: {
+    width: {
+      immediate: true,
+      handler() {
+        this.canvas.width = this.width;
+      },
+    },
+    height: {
+      immediate: true,
+      handler() {
+        this.canvas.height = this.height;
+      },
+    },
+  },
+
   data() {
     return {
       canvas: null,
@@ -37,20 +65,8 @@ export default {
     },
 
     handleResize() {
-      // this.canvas.height = window.innerHeight;
-      // this.canvas.width = window.innerWidth;
-
-      this.canvas.height = 300;
-      this.canvas.width = 300;
-      // this.loadImage()
-      //   .then(img => {
-      //     this.ctx.drawImage(
-      //       img,
-      //       window.innerWidth / 2 - 150,
-      //       window.innerHeight / 2 - 150
-      //     );
-      //   })
-      //   .catch(err => console.error(err));
+      this.canvas.height = this.height;
+      this.canvas.width = this.width;
     },
 
     funDraw(e) {
@@ -107,36 +123,14 @@ export default {
         this.hue = 0;
       }
     }
-
-    // loadImage() {
-    //   return new Promise((resolve, reject) => {
-    //     const img = new Image();
-
-    //     img.addEventListener("load", () => resolve(img));
-    //     img.addEventListener("error", err => reject(err));
-    //     img.src = `https://api.adorable.io/avatars/300/${this.randomNumber}`;
-    //   });
-    // },
   },
 
   mounted() {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
 
-    // this.canvas.height = window.innerHeight /2;
-    // this.canvas.width = window.innerWidth/2;
-    this.canvas.height = 300;
-    this.canvas.width = 300;
-    // this.loadImage()
-    // .then(img => {
-    //   console.log(this.hideImage)
-    //     this.ctx.drawImage(
-    //       img,
-    //       window.innerWidth / 2 - 150,
-    //       window.innerHeight / 2 - 150
-    //     );
-    // })
-    // .catch(err => console.error(err));
+    this.canvas.height = this.height;
+    this.canvas.width = this.width;
 
     window.addEventListener("resize", this.handleResize);
   },
