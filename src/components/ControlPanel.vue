@@ -3,7 +3,19 @@
     <br />
     <Input />
     <br />
+    <input 
+      type="range" 
+      min="1" 
+      max="10" 
+      v-model="value"
+      @change="setLineWidth"
+    />
+    <br />
     <Button @click="toggleBackground">Hide/Show Image</Button>
+    <br />
+    <br />
+    <Button @click="download">Download</Button>
+    <br />
   </div>
 </template>
 
@@ -23,6 +35,7 @@ export default {
     return {
       image: '',
       randomNumber: Math.random(),
+      value: 5,
     }
   },
 
@@ -33,18 +46,24 @@ export default {
 
     getRandomNumber(max) {
       return Math.floor(Math.random() * Math.floor(max));
+    },
+
+    setLineWidth() {
+      this.$emit('line-width', this.value);
+    },
+    
+    download() {
+      console.log('asd')
     }
   },
 
   mounted() {
     axios
-      .get('https://api.jikan.moe/v3/search/character?q=death&rated=pg')
+      .get('https://api.jikan.moe/v3/search/character?q=pikachu&rated=pg')
       .then(response => {
         this.image = response.data.results[this.getRandomNumber(response.data.results.length)].image_url
 
         this.$emit('anime', this.image)
-
-        // console.log(resp, 'response');
       })
   }
 };

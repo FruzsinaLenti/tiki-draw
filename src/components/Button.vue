@@ -10,8 +10,11 @@ export default {};
 button {
   height: 50px;
   width: 150px;
-  border: 1px solid hsl(111, 100%, 66%);
-  border-radius: 20px;
-  background: hsl(187, 100%, 85%);
+  border: 2px solid #11998e;
+  border-radius: 3px;
+  background: white;
+  color: #11998e;
+  font-size: 1rem;
+
 }
 </style>

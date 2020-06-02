@@ -17,13 +17,15 @@ export default {
   props: {
     height: {
       type: Number,
-      default: 300
     },
 
     width: {
       type: Number,
-      default: 300
+    },
 
+    lineWidth: {
+      type: String,
+      default: "5",
     }
   },
 
@@ -31,13 +33,14 @@ export default {
     width: {
       immediate: true,
       handler() {
-        this.canvas.width = this.width;
+        this.localWidth = this.width;
       },
     },
+
     height: {
       immediate: true,
       handler() {
-        this.canvas.height = this.height;
+        this.localHeight = this.height;
       },
     },
   },
@@ -49,7 +52,9 @@ export default {
       isDrawing: false,
       lastX: null,
       lastY: null,
-      hue: 0
+      hue: 0,
+      localWidth: 300,
+      localHeight: 300
     };
   },
 
@@ -73,7 +78,7 @@ export default {
       if (!this.isDrawing) return;
 
       this.ctx.lineJoin = "round";
-      this.ctx.lineWidth = 5;
+      this.ctx.lineWidth = this.lineWidth;
       this.ctx.lineCap = "round";
 
       this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 50%)`;
@@ -92,7 +97,7 @@ export default {
       if (!this.isDrawing) return;
 
       this.ctx.lineJoin = "round";
-      this.ctx.lineWidth = 6;
+      this.ctx.lineWidth = this.lineWidth;
       this.ctx.lineCap = "round";
       this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 84%)`;
 
@@ -112,10 +117,6 @@ export default {
 
       this.ctx.stroke();
       this.lastX = lineToX
-
-
-
-
       this.lastY = lineToY
 
       this.hue++;
@@ -129,10 +130,10 @@ export default {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
 
-    this.canvas.height = this.height;
-    this.canvas.width = this.width;
+    this.canvas.height = this.localHeight;
+    this.canvas.width = this.localWidth;
 
-    window.addEventListener("resize", this.handleResize);
+    // window.addEventListener("resize", this.handleResize);
   },
 
   beforeDestroy() {

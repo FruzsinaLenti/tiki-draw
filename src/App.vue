@@ -1,10 +1,25 @@
 <template>
   <div id="app">
     <TikiBackground class="background" />
-    <ControlPanel @toggle-background="onToggleBackground" @anime='setImageUrl' />
+    <ControlPanel 
+      @toggle-background="onToggleBackground" 
+      @anime="setImageUrl"
+      @line-width="onChangeLineWitdh"
+    />
     <div class="canvas-container">
-      <img @load="getImageDimensions" ref="drawable" :src="imageUrl" class="background-image" :class="{'hide': hideImage }" />
-      <Canvas :width="imageWidth" :height="imageHeight" class="canvas-wrapper" />
+      <img 
+        @load="getImageDimensions" 
+        ref="drawable" 
+        :src="imageUrl" 
+        :class="{'hide': hideImage }"
+        class="background-image" 
+      />
+      <Canvas 
+        :width="imageWidth"
+        :height="imageHeight"
+        :lineWidth="localLineWidth"
+        class="canvas-wrapper"
+      />
     </div>
   </div>
 </template>
@@ -24,9 +39,10 @@ export default {
   data() {
     return {
       hideImage: false,
-      imageUrl: null,
+      imageUrl: '',
       imageWidth: 300,
       imageHeight: 300,
+      localLineWidth: null,
     };
   },
 
@@ -35,7 +51,7 @@ export default {
       handler() {
         this.hasError = false;
       }
-    }
+    },
   },
 
   methods: {
@@ -47,11 +63,16 @@ export default {
       await this.$nextTick(() => {
         this.imageWidth = this.$refs.drawable.width
         this.imageHeight = this.$refs.drawable.height
+        console.log(this.imageWidth, 'asd')
       })
     },
 
     setImageUrl(image) {
       this.imageUrl = image
+    },
+
+    onChangeLineWitdh(lineWidth) {
+      this.localLineWidth = lineWidth
     }
   }
 };
@@ -73,15 +94,18 @@ body {
 .background {
   position: absolute;
   display: grid;
-  grid-template-rows: 40% 50%;
-  grid-template-columns: 300px 350px auto;
+  grid-template-rows: 40% 40%;
+  grid-template-columns: auto auto;
+  /* grid-template-rows: 40% 50%;
+  grid-template-columns: 300px 350px auto; */
+  
 }
 
 .canvas-container {
   position: relative;
   float: left;
-  left: 30%;
-  top: 200px;
+  left: calc(50% - 100px);
+  top: 100px;
 }
 
 .canvas-wrapper {

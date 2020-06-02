@@ -43,7 +43,7 @@ export default {
     },
 
     color(r) {
-      return `hsla(${r}, 100%, 85%, 0.4)`;
+      return `hsla(${r}, 100%, 85%, 0.2)`;
     },
 
     randomNumber(min, max) {
