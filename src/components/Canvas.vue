@@ -53,25 +53,24 @@ export default {
       //   .catch(err => console.error(err));
     },
 
-    // draw(e) {
-    //   if (!this.isDrawing) return;
+    funDraw(e) {
+      if (!this.isDrawing) return;
 
-    //   this.ctx.lineJoin = "round";
-    //   this.ctx.lineWidth = 1;
-    //   this.ctx.lineCap = "round";
+      this.ctx.lineJoin = "round";
+      this.ctx.lineWidth = 5;
+      this.ctx.lineCap = "round";
 
-    //   this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 50%)`;
-    //   this.ctx.lineTo(e.offsetX, e.offsetY);
-    //   this.ctx.stroke();
-    //   this.ctx.beginPath();
-    //   //this.ctx.moveTo(this.lastX, this.lastY); //this is awesome
-    //   this.ctx.moveTo(e.offsetX, e.offsetY);
+      this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 50%)`;
+      this.ctx.lineTo(e.offsetX, e.offsetY);
+      this.ctx.stroke();
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.lastX, this.lastY); //this is awesome
 
-    //   this.hue++;
-    //   if (this.hue >= 360) {
-    //     this.hue = 0;
-    //   }
-    // },
+      this.hue++;
+      if (this.hue >= 360) {
+        this.hue = 0;
+      }
+    },
 
     draw(e) {
       if (!this.isDrawing) return;
@@ -94,12 +93,14 @@ export default {
       this.ctx.moveTo(this.lastX || lineToX, this.lastY || lineToY);
       this.ctx.lineTo(lineToX, lineToY);
 
+
       this.ctx.stroke();
-      if (e.type === "touchmove") {
-        [this.lastX, this.lastY] = [e.touches[0].clientX, e.touches[0].clientY];
-      } else {
-        [this.lastX, this.lastY] = [e.offsetX, e.offsetY];
-      }
+      this.lastX = lineToX
+
+
+
+
+      this.lastY = lineToY
 
       this.hue++;
       if (this.hue >= 360) {

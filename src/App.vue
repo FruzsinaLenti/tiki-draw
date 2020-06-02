@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TikiBackground class="background" />
-    <ControlPanel @toggle-background="onToggleBackground" />
+    <ControlPanel @toggle-background="onToggleBackground" @anime='setImageUrl' />
     <div class="canvas-container">
       <img v-show="!hideImage" :src="imageUrl" class="background-image" />
       <Canvas class="canvas-wrapper" />
@@ -23,8 +23,8 @@ export default {
 
   data() {
     return {
-      randomNumber: Math.random(),
-      hideImage: false
+      hideImage: false,
+      imageUrl: null
     };
   },
 
@@ -36,15 +36,13 @@ export default {
     }
   },
 
-  computed: {
-    imageUrl() {
-      return `https://api.adorable.io/avatars/300/${this.randomNumber}`;
-    }
-  },
-
   methods: {
     onToggleBackground() {
       this.hideImage = !this.hideImage;
+    },
+
+    setImageUrl(image) {
+      this.imageUrl = image
     }
   }
 };
