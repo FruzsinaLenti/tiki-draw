@@ -15,6 +15,7 @@
         class="background-image"
       />
       <Canvas
+        v-if="imageWidth && imageHeight"
         :width="imageWidth"
         :height="imageHeight"
         :lineWidth="localLineWidth"
@@ -40,8 +41,8 @@ export default {
     return {
       hideImage: false,
       imageUrl: "",
-      imageWidth: 300,
-      imageHeight: 300,
+      imageWidth: null,
+      imageHeight: null,
       localLineWidth: null,
       localImageForDownload: null
     };

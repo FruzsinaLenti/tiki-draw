@@ -30,22 +30,6 @@ export default {
     }
   },
 
-  watch: {
-    width: {
-      immediate: true,
-      handler() {
-        this.localWidth = this.width;
-      }
-    },
-
-    height: {
-      immediate: true,
-      handler() {
-        this.localHeight = this.height;
-      }
-    }
-  },
-
   data() {
     return {
       canvas: null,
@@ -53,9 +37,7 @@ export default {
       isDrawing: false,
       lastX: null,
       lastY: null,
-      hue: 0,
-      localWidth: 300,
-      localHeight: 300
+      hue: 0
     };
   },
 
@@ -129,7 +111,7 @@ export default {
       const image = this.$refs.canvas
         .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
-      console.log(image, "image");
+
       this.$emit("on-download", image);
     }
 
@@ -154,8 +136,8 @@ export default {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
 
-    this.canvas.height = this.localHeight;
-    this.canvas.width = this.localWidth;
+    this.canvas.height = this.height;
+    this.canvas.width = this.width;
 
     // window.addEventListener("resize", this.handleResize);
 
