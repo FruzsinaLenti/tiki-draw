@@ -11,10 +11,15 @@
       @change="setLineWidth"
     />
     <br />
-    <Button @click="toggleBackground">Hide/Show Image</Button>
+    <CheckboxWithLabel
+      :checked="isImageHidden"
+      @change="toggleBackground"
+      style="height: 42px;"
+      >Hide Image</CheckboxWithLabel
+    >
     <br />
     <br />
-    <Button ref="download" @click="onClickDownload">Download</Button>
+    <Button ref="download" @click="onClickDownload">Download drawing</Button>
     <br />
   </div>
 </template>
@@ -23,12 +28,20 @@
 import { EventBus } from "../services/event-bus.js";
 import Input from "./Input.vue";
 import Button from "./Button.vue";
+import CheckboxWithLabel from "./CheckboxWithLabel.vue";
 import axios from "axios";
 
 export default {
   components: {
     Input,
-    Button
+    Button,
+    CheckboxWithLabel
+  },
+
+  props: {
+    isImageHidden: {
+      type: Boolean
+    }
   },
 
   data() {

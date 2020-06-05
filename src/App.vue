@@ -2,7 +2,8 @@
   <div id="app">
     <TikiBackground class="background" />
     <ControlPanel
-      @toggle-background="onToggleBackground"
+      @toggle-background="onToggleImage()"
+      :isImageHidden="isImageHidden"
       @anime="setImageUrl"
       @line-width="onChangeLineWitdh"
     />
@@ -11,7 +12,7 @@
         @load="getImageDimensions"
         ref="drawable"
         :src="imageUrl"
-        :class="{ hide: hideImage }"
+        :class="{ hide: isImageHidden }"
         class="background-image"
       />
       <Canvas
@@ -39,7 +40,7 @@ export default {
 
   data() {
     return {
-      hideImage: false,
+      isImageHidden: false,
       imageUrl: "",
       imageWidth: null,
       imageHeight: null,
@@ -48,17 +49,9 @@ export default {
     };
   },
 
-  watch: {
-    hideImage: {
-      handler() {
-        this.hasError = false;
-      }
-    }
-  },
-
   methods: {
-    onToggleBackground() {
-      this.hideImage = !this.hideImage;
+    onToggleImage() {
+      this.isImageHidden = !this.isImageHidden;
     },
 
     async getImageDimensions() {
