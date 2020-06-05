@@ -9,15 +9,13 @@
       max="10"
       v-model="value"
       @change="setLineWidth"
+      class="slider"
     />
     <br />
-    <CheckboxWithLabel
-      :checked="isImageHidden"
-      @change="toggleBackground"
-      style="height: 42px;"
-      >Hide Image</CheckboxWithLabel
-    >
     <br />
+    <CheckboxWithLabel :checked="isImageHidden" @change="toggleBackground">
+      Hide Image
+    </CheckboxWithLabel>
     <br />
     <Button ref="download" @click="onClickDownload">Download drawing</Button>
     <br />
@@ -93,5 +91,41 @@ export default {
   height: 100vh;
   border-right: 1px solid hsl(222, 100%, 85%);
   background: white;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 85%;
+  height: 5px;
+  background: #11998e;
+  outline: none;
+  opacity: 0.8;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  border-radius: 3px;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #11998e;
+
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #38ef7d;
+  cursor: pointer;
 }
 </style>

@@ -62,22 +62,18 @@ export default {
   width: 38px;
   height: 38px;
   min-width: 18px;
-  border: 1px solid #11998e;
+  border: 2px solid #11998e;
   border-radius: 3px;
   cursor: pointer;
 }
 
-/* .checkbox:focus {
-  @include input-outline;
-} */
-
 .checkbox.checked {
-  border: 1px solid #38ef7d;
+  border: 3px solid #38ef7d;
   background: #38ef7d;
 }
 
 .checkbox.disabled {
-  border: 1px solid #38ef7d;
+  border: 2px solid #38ef7d;
   cursor: default;
   pointer-events: none;
 }
@@ -87,8 +83,8 @@ export default {
 }
 
 .icon {
-  width: percentage(8/18);
-  height: percentage(6/18);
+  width: percentage(7/9);
+  height: percentage(8/9);
   color: white;
 }
 </style>
