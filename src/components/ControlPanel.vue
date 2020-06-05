@@ -3,10 +3,10 @@
     <br />
     <Input />
     <br />
-    <input 
-      type="range" 
-      min="1" 
-      max="10" 
+    <input
+      type="range"
+      min="1"
+      max="10"
       v-model="value"
       @change="setLineWidth"
     />
@@ -14,16 +14,16 @@
     <Button @click="toggleBackground">Hide/Show Image</Button>
     <br />
     <br />
-    <Button @click="download">Download</Button>
+    <Button ref="download" @click="onClickDownload">Download</Button>
     <br />
   </div>
 </template>
 
 <script>
+import { EventBus } from "../services/event-bus.js";
 import Input from "./Input.vue";
 import Button from "./Button.vue";
-import axios from 'axios'
-
+import axios from "axios";
 
 export default {
   components: {
@@ -33,10 +33,10 @@ export default {
 
   data() {
     return {
-      image: '',
+      image: "",
       randomNumber: Math.random(),
-      value: 5,
-    }
+      value: 5
+    };
   },
 
   methods: {
@@ -49,22 +49,25 @@ export default {
     },
 
     setLineWidth() {
-      this.$emit('line-width', this.value);
+      this.$emit("line-width", this.value);
     },
-    
-    download() {
-      console.log('asd')
+
+    onClickDownload() {
+      EventBus.$emit("download");
     }
   },
 
   mounted() {
     axios
-      .get('https://api.jikan.moe/v3/search/character?q=pikachu&rated=pg')
+      .get("https://api.jikan.moe/v3/search/character?q=pikachu&rated=pg")
       .then(response => {
-        this.image = response.data.results[this.getRandomNumber(response.data.results.length)].image_url
+        this.image =
+          response.data.results[
+            this.getRandomNumber(response.data.results.length)
+          ].image_url;
 
-        this.$emit('anime', this.image)
-      })
+        this.$emit("anime", this.image);
+      });
   }
 };
 </script>

@@ -13,19 +13,20 @@
 </template>
 
 <script>
+import { EventBus } from "../services/event-bus.js";
+
 export default {
   props: {
     height: {
-      type: Number,
+      type: Number
     },
 
     width: {
-      type: Number,
+      type: Number
     },
 
     lineWidth: {
-      type: String,
-      default: "5",
+      type: String
     }
   },
 
@@ -34,15 +35,15 @@ export default {
       immediate: true,
       handler() {
         this.localWidth = this.width;
-      },
+      }
     },
 
     height: {
       immediate: true,
       handler() {
         this.localHeight = this.height;
-      },
-    },
+      }
+    }
   },
 
   data() {
@@ -114,16 +115,39 @@ export default {
       this.ctx.moveTo(this.lastX || lineToX, this.lastY || lineToY);
       this.ctx.lineTo(lineToX, lineToY);
 
-
       this.ctx.stroke();
-      this.lastX = lineToX
-      this.lastY = lineToY
+      this.lastX = lineToX;
+      this.lastY = lineToY;
 
       this.hue++;
       if (this.hue >= 360) {
         this.hue = 0;
       }
+    },
+
+    getImageToDownload() {
+      const image = this.$refs.canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      console.log(image, "image");
+      this.$emit("on-download", image);
     }
+
+    //     function loadImage() {
+    //   const img = new Image()
+    //   const randomNumber = Math.random()
+    //   console.log(`https://api.adorable.io/avatars/${window.innerHeight}/${randomNumber}`)
+    //   img.src = `https://api.adorable.io/avatars/300/${randomNumber}`
+    //   img.onload = () => {
+    //     ctx.drawImage(img, window.innerWidth/2 - 150, window.innerHeight/2 - 150)
+    //   }
+
+    //   const faceColor =  window.innerWidth/2 - 152
+
+    //   let pixels = ctx.getImageData(window.innerWidth/2 - 140, window.innerHeight/2 - 140, 2, 3)
+    //   console.log(pixels, 'pp')
+
+    // }
   },
 
   mounted() {
@@ -134,6 +158,15 @@ export default {
     this.canvas.width = this.localWidth;
 
     // window.addEventListener("resize", this.handleResize);
+
+    EventBus.$on("download", () => {
+      const image = this.$refs.canvas.toDataURL("image/png");
+
+      var link = document.createElement("a");
+      link.download = "filename.png";
+      link.href = image;
+      link.click();
+    });
   },
 
   beforeDestroy() {

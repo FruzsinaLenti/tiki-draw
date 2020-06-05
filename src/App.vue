@@ -1,20 +1,20 @@
 <template>
   <div id="app">
     <TikiBackground class="background" />
-    <ControlPanel 
-      @toggle-background="onToggleBackground" 
+    <ControlPanel
+      @toggle-background="onToggleBackground"
       @anime="setImageUrl"
       @line-width="onChangeLineWitdh"
     />
     <div class="canvas-container">
-      <img 
-        @load="getImageDimensions" 
-        ref="drawable" 
-        :src="imageUrl" 
-        :class="{'hide': hideImage }"
-        class="background-image" 
+      <img
+        @load="getImageDimensions"
+        ref="drawable"
+        :src="imageUrl"
+        :class="{ hide: hideImage }"
+        class="background-image"
       />
-      <Canvas 
+      <Canvas
         :width="imageWidth"
         :height="imageHeight"
         :lineWidth="localLineWidth"
@@ -39,10 +39,11 @@ export default {
   data() {
     return {
       hideImage: false,
-      imageUrl: '',
+      imageUrl: "",
       imageWidth: 300,
       imageHeight: 300,
       localLineWidth: null,
+      localImageForDownload: null
     };
   },
 
@@ -51,7 +52,7 @@ export default {
       handler() {
         this.hasError = false;
       }
-    },
+    }
   },
 
   methods: {
@@ -61,18 +62,17 @@ export default {
 
     async getImageDimensions() {
       await this.$nextTick(() => {
-        this.imageWidth = this.$refs.drawable.width
-        this.imageHeight = this.$refs.drawable.height
-        console.log(this.imageWidth, 'asd')
-      })
+        this.imageWidth = this.$refs.drawable.width;
+        this.imageHeight = this.$refs.drawable.height;
+      });
     },
 
     setImageUrl(image) {
-      this.imageUrl = image
+      this.imageUrl = image;
     },
 
     onChangeLineWitdh(lineWidth) {
-      this.localLineWidth = lineWidth
+      this.localLineWidth = lineWidth;
     }
   }
 };
@@ -98,7 +98,6 @@ body {
   grid-template-columns: auto auto;
   /* grid-template-rows: 40% 50%;
   grid-template-columns: 300px 350px auto; */
-  
 }
 
 .canvas-container {
