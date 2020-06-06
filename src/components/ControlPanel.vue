@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <Blossom class="blossom" />
     <br />
     <Input />
     <br />
@@ -13,27 +14,42 @@
     />
     <br />
     <br />
+    <div>
+      <input
+        type="color"
+        id="head"
+        name="head"
+        value="#e66465"
+        v-model="color"
+        @change="setColor"
+      />
+      <label for="head">Pick a color</label>
+    </div>
+    <br />
+    <br />
     <CheckboxWithLabel :checked="isImageHidden" @change="toggleBackground">
       Hide Image
     </CheckboxWithLabel>
     <br />
-    <Button ref="download" @click="onClickDownload">Download drawing</Button>
+    <Button @click="onClickDownload">Download drawing</Button>
     <br />
   </div>
 </template>
 
 <script>
 import { EventBus } from "../services/event-bus.js";
+import axios from "axios";
 import Input from "./Input.vue";
 import Button from "./Button.vue";
 import CheckboxWithLabel from "./CheckboxWithLabel.vue";
-import axios from "axios";
+import Blossom from "./icons/Blossom.vue";
 
 export default {
   components: {
     Input,
     Button,
-    CheckboxWithLabel
+    CheckboxWithLabel,
+    Blossom
   },
 
   props: {
@@ -46,7 +62,8 @@ export default {
     return {
       image: "",
       randomNumber: Math.random(),
-      value: 5
+      value: 1,
+      color: "#000000"
     };
   },
 
@@ -63,8 +80,16 @@ export default {
       this.$emit("line-width", this.value);
     },
 
+    setColor() {
+      this.$emit("color-pick", this.color);
+    },
+
     onClickDownload() {
-      EventBus.$emit("download");
+      if (this.isImageHidden) {
+        EventBus.$emit("download");
+      } else {
+        EventBus.$emit("download-with-image");
+      }
     }
   },
 
@@ -91,6 +116,15 @@ export default {
   height: 100vh;
   border-right: 1px solid hsl(222, 100%, 85%);
   background: white;
+}
+
+.blossom {
+  height: 300px;
+  width: 300px;
+  color: rgba(17, 153, 142, 0.2);
+  position: absolute;
+  bottom: -120px;
+  left: -190px;
 }
 
 .slider {

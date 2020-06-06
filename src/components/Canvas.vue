@@ -8,7 +8,6 @@
     @touchmove="draw"
     @touchstart="startDrawing"
     @touchend="stopDrawing"
-    @touchcancel="stopDrawing"
   ></canvas>
 </template>
 
@@ -26,6 +25,14 @@ export default {
     },
 
     lineWidth: {
+      type: String
+    },
+
+    color: {
+      type: String
+    },
+
+    src: {
       type: String
     }
   },
@@ -82,30 +89,56 @@ export default {
       this.ctx.lineJoin = "round";
       this.ctx.lineWidth = this.lineWidth;
       this.ctx.lineCap = "round";
-      this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 84%)`;
+      this.ctx.strokeStyle = this.color;
 
       this.ctx.beginPath();
       let lineToX;
       let lineToY;
       if (e.type === "touchmove") {
-        lineToX = e.touches[0].clientX;
-        lineToY = e.touches[0].clientY;
+        lineToX = e.touches[0].clientX - (window.innerWidth / 2 - 100);
+        lineToY = e.touches[0].clientY - 100;
       } else {
         lineToX = e.offsetX;
         lineToY = e.offsetY;
       }
+
       this.ctx.moveTo(this.lastX || lineToX, this.lastY || lineToY);
       this.ctx.lineTo(lineToX, lineToY);
 
       this.ctx.stroke();
       this.lastX = lineToX;
       this.lastY = lineToY;
-
-      this.hue++;
-      if (this.hue >= 360) {
-        this.hue = 0;
-      }
     },
+    // draw(e) {
+    //   if (!this.isDrawing) return;
+
+    //   this.ctx.lineJoin = "round";
+    //   this.ctx.lineWidth = this.lineWidth;
+    //   this.ctx.lineCap = "round";
+    //   this.ctx.strokeStyle = `hsl(${this.hue}, 100%, 84%)`;
+
+    //   this.ctx.beginPath();
+    //   let lineToX;
+    //   let lineToY;
+    //   if (e.type === "touchmove") {
+    //     lineToX = e.touches[0].clientX;
+    //     lineToY = e.touches[0].clientY;
+    //   } else {
+    //     lineToX = e.offsetX;
+    //     lineToY = e.offsetY;
+    //   }
+    //   this.ctx.moveTo(this.lastX || lineToX, this.lastY || lineToY);
+    //   this.ctx.lineTo(lineToX, lineToY);
+
+    //   this.ctx.stroke();
+    //   this.lastX = lineToX;
+    //   this.lastY = lineToY;
+
+    //   this.hue++;
+    //   if (this.hue >= 360) {
+    //     this.hue = 0;
+    //   }
+    // },
 
     getImageToDownload() {
       const image = this.$refs.canvas
@@ -113,28 +146,24 @@ export default {
         .replace("image/png", "image/octet-stream");
 
       this.$emit("on-download", image);
+    },
+
+    loadImage() {
+      const img = new Image();
+
+      img.setAttribute("crossorigin", "anonymous");
+      img.onload = () => {
+        this.ctx.drawImage(img, 0, 0);
+      };
+      img.src = this.src;
     }
-
-    //     function loadImage() {
-    //   const img = new Image()
-    //   const randomNumber = Math.random()
-    //   console.log(`https://api.adorable.io/avatars/${window.innerHeight}/${randomNumber}`)
-    //   img.src = `https://api.adorable.io/avatars/300/${randomNumber}`
-    //   img.onload = () => {
-    //     ctx.drawImage(img, window.innerWidth/2 - 150, window.innerHeight/2 - 150)
-    //   }
-
-    //   const faceColor =  window.innerWidth/2 - 152
-
-    //   let pixels = ctx.getImageData(window.innerWidth/2 - 140, window.innerHeight/2 - 140, 2, 3)
-    //   console.log(pixels, 'pp')
-
-    // }
   },
 
   mounted() {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
+
+    this.ctx.fillStyle = "blue";
 
     this.canvas.height = this.height;
     this.canvas.width = this.width;
@@ -148,6 +177,18 @@ export default {
       link.download = "filename.png";
       link.href = image;
       link.click();
+    });
+
+    EventBus.$on("download-with-image", async () => {
+      this.loadImage();
+      await this.$nextTick(() => {
+        const image = this.$refs.canvas.toDataURL("image/png");
+
+        var link = document.createElement("a");
+        link.download = "file.png";
+        link.href = image;
+        link.click();
+      });
     });
   },
 

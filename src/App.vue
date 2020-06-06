@@ -2,9 +2,10 @@
   <div id="app">
     <TikiBackground class="background" />
     <ControlPanel
-      @toggle-background="onToggleImage()"
       :isImageHidden="isImageHidden"
+      @toggle-background="onToggleImage()"
       @anime="setImageUrl"
+      @color-pick="setColor"
       @line-width="onChangeLineWitdh"
     />
     <div class="canvas-container">
@@ -20,6 +21,8 @@
         :width="imageWidth"
         :height="imageHeight"
         :lineWidth="localLineWidth"
+        :color="localColor"
+        :src="imageUrl"
         class="canvas-wrapper"
       />
     </div>
@@ -45,7 +48,7 @@ export default {
       imageWidth: null,
       imageHeight: null,
       localLineWidth: null,
-      localImageForDownload: null
+      localColor: "#000000"
     };
   },
 
@@ -63,6 +66,10 @@ export default {
 
     setImageUrl(image) {
       this.imageUrl = image;
+    },
+
+    setColor(color) {
+      this.localColor = color;
     },
 
     onChangeLineWitdh(lineWidth) {
