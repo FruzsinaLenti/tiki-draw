@@ -14,7 +14,7 @@
     />
     <br />
     <br />
-    <div>
+    <div class="color-picker">
       <input
         type="color"
         id="head"
@@ -23,10 +23,8 @@
         v-model="color"
         @change="setColor"
       />
-      <label for="head">Pick a color</label>
+      <label for="head" class="color-picker-label">Pick a color</label>
     </div>
-    <br />
-    <br />
     <CheckboxWithLabel :checked="isImageHidden" @change="toggleBackground">
       Hide Image
     </CheckboxWithLabel>
@@ -94,16 +92,25 @@ export default {
   },
 
   mounted() {
-    axios
-      .get("https://api.jikan.moe/v3/search/character?q=pikachu&rated=pg")
-      .then(response => {
-        this.image =
-          response.data.results[
-            this.getRandomNumber(response.data.results.length)
-          ].image_url;
+    // Anime API not working rigth now
+    //   axios
+    //     .get("https://api.jikan.moe/v3/search/character?q=pikachu&rated=pg")
+    //     .then(response => {
+    //       this.image =
+    //         response.data.results[
+    //           this.getRandomNumber(response.data.results.length)
+    //         ].image_url;
 
-        this.$emit("anime", this.image);
-      });
+    //       this.$emit("anime", this.image);
+    //     });
+    // }
+    const random = this.getRandomNumber(183);
+    const url = `https://rickandmortyapi.com/api/character/${random}`;
+    axios.get(url).then(response => {
+      this.image = response.data.image;
+
+      this.$emit("anime", this.image);
+    });
   }
 };
 </script>
@@ -161,5 +168,26 @@ export default {
   height: 20px;
   background: #38ef7d;
   cursor: pointer;
+}
+
+input[type="color"] {
+  width: 26px;
+  height: 26px;
+  color: #11998e;
+  border: 2px solid #11998e;
+  border-radius: 3px;
+  background: white;
+}
+
+.color-picker-label {
+  color: #11998e;
+  padding-left: 8px;
+  font-size: 18px;
+}
+
+.color-picker {
+  width: 100%;
+  display: flex;
+  padding: 5px;
 }
 </style>

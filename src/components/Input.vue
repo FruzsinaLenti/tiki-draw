@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$primary: #11998e;
+$primary: rgb(17, 153, 142);
 $secondary: #38ef7d;
 $white: #fff;
 $gray: #9b9b9b;
