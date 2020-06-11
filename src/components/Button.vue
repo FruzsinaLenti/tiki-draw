@@ -15,6 +15,6 @@ button {
   background: white;
   color: #11998e;
   font-size: 1rem;
-
+  margin: 1rem;
 }
 </style>

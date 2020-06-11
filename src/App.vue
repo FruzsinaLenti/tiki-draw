@@ -93,12 +93,18 @@ body {
 }
 
 .background {
+  width: 100%;
   position: absolute;
   display: grid;
   grid-template-rows: 40% 40%;
   grid-template-columns: auto auto;
-  /* grid-template-rows: 40% 50%;
-  grid-template-columns: 300px 350px auto; */
+  background: linear-gradient(
+    180deg,
+    rgb(102, 234, 253),
+    rgb(184, 247, 114),
+    rgb(250, 150, 128),
+    rgb(249, 220, 129)
+  );
 }
 
 .canvas-container {
@@ -116,5 +122,14 @@ body {
 
 .hide {
   opacity: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .canvas-container {
+    position: relative;
+    float: left;
+    left: calc(50% - 150px);
+    top: 50px;
+  }
 }
 </style>

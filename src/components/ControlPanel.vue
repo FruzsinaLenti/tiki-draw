@@ -1,9 +1,5 @@
 <template>
   <div class="container">
-    <Blossom class="blossom" />
-    <br />
-    <Input />
-    <br />
     <input
       type="range"
       min="1"
@@ -30,24 +26,21 @@
     </CheckboxWithLabel>
     <br />
     <Button @click="onClickDownload">Download drawing</Button>
+    <Button @click="loadNewImage">Load new Image</Button>
     <br />
   </div>
 </template>
 
 <script>
 import { EventBus } from "../services/event-bus.js";
-import axios from "axios";
-import Input from "./Input.vue";
+import { getImage } from "../services/api.js";
 import Button from "./Button.vue";
 import CheckboxWithLabel from "./CheckboxWithLabel.vue";
-import Blossom from "./icons/Blossom.vue";
 
 export default {
   components: {
-    Input,
     Button,
-    CheckboxWithLabel,
-    Blossom
+    CheckboxWithLabel
   },
 
   props: {
@@ -59,7 +52,7 @@ export default {
   data() {
     return {
       image: "",
-      randomNumber: Math.random(),
+      randomNumber: this.getRandomNumber(591),
       value: 1,
       color: "#000000"
     };
@@ -88,29 +81,23 @@ export default {
       } else {
         EventBus.$emit("download-with-image");
       }
+    },
+
+    async loadNewImage() {
+      this.randomNumber = this.getRandomNumber(591);
+      const url = `https://rickandmortyapi.com/api/character/${this.randomNumber}`;
+
+      this.image = await getImage(url);
+      this.$emit("anime", this.image);
     }
   },
 
-  mounted() {
-    // Anime API not working rigth now
-    //   axios
-    //     .get("https://api.jikan.moe/v3/search/character?q=pikachu&rated=pg")
-    //     .then(response => {
-    //       this.image =
-    //         response.data.results[
-    //           this.getRandomNumber(response.data.results.length)
-    //         ].image_url;
+  async mounted() {
+    const url = `https://rickandmortyapi.com/api/character/${this.randomNumber}`;
 
-    //       this.$emit("anime", this.image);
-    //     });
-    // }
-    const random = this.getRandomNumber(183);
-    const url = `https://rickandmortyapi.com/api/character/${random}`;
-    axios.get(url).then(response => {
-      this.image = response.data.image;
+    this.image = await getImage(url);
 
-      this.$emit("anime", this.image);
-    });
+    this.$emit("anime", this.image);
   }
 };
 </script>
@@ -189,5 +176,14 @@ input[type="color"] {
   width: 100%;
   display: flex;
   padding: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    border-top: 1px solid hsl(222, 100%, 85%);
+  }
 }
 </style>

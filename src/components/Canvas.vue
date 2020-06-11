@@ -95,8 +95,8 @@ export default {
       let lineToX;
       let lineToY;
       if (e.type === "touchmove") {
-        lineToX = e.touches[0].clientX - (window.innerWidth / 2 - 100);
-        lineToY = e.touches[0].clientY - 100;
+        lineToX = e.touches[0].clientX - (window.innerWidth / 2 - 150);
+        lineToY = e.touches[0].clientY - 50;
       } else {
         lineToX = e.offsetX;
         lineToY = e.offsetY;
