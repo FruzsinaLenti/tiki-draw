@@ -48,7 +48,8 @@ export default {
       imageWidth: null,
       imageHeight: null,
       localLineWidth: null,
-      localColor: "#000000"
+      localColor: "#000000",
+      isRefreshing: false
     };
   },
 
@@ -66,6 +67,16 @@ export default {
 
     setImageUrl(image) {
       this.imageUrl = image;
+      // const img = new Image();
+
+      // img.onload = () => {
+      //   this.isRefreshing = true;
+      //   console.log(img.width, "s.img.width");
+
+      //   this.imageWidth = img.width;
+      //   this.imageHeight = img.height;
+      // };
+      // img.src = image;
     },
 
     setColor(color) {
@@ -105,6 +116,10 @@ body {
     rgb(250, 150, 128),
     rgb(249, 220, 129)
   );
+}
+
+.background-image {
+  user-select: none;
 }
 
 .canvas-container {

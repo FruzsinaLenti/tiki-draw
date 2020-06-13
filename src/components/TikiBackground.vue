@@ -56,6 +56,7 @@ export default {
 <style scoped>
 .container {
   position: relative;
+  user-select: none;
 }
 .base {
   position: relative;

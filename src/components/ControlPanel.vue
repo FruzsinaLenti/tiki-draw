@@ -26,7 +26,8 @@
     </CheckboxWithLabel>
     <br />
     <Button @click="onClickDownload">Download drawing</Button>
-    <Button @click="loadNewImage">Load new Image</Button>
+    <Button @click="loadRickAndMorty">Load new Rick and Morty</Button>
+    <Button @click="loadNewPokemon">Load new Pokemon</Button>
     <br />
   </div>
 </template>
@@ -83,20 +84,31 @@ export default {
       }
     },
 
-    async loadNewImage() {
+    async loadRickAndMorty() {
       this.randomNumber = this.getRandomNumber(591);
       const url = `https://rickandmortyapi.com/api/character/${this.randomNumber}`;
 
-      this.image = await getImage(url);
+      const img = await getImage(url);
+      this.image = img.image;
+      this.$emit("anime", this.image);
+    },
+
+    async loadNewPokemon() {
+      const url = `https://api.jikan.moe/v3/search/anime?q=pokemon&rated=pg`;
+
+      const response = await getImage(url);
+      this.randomNumber = this.getRandomNumber(response.results.length);
+
+      this.image = response.results[this.randomNumber].image_url;
       this.$emit("anime", this.image);
     }
   },
 
   async mounted() {
     const url = `https://rickandmortyapi.com/api/character/${this.randomNumber}`;
+    const response = await getImage(url);
 
-    this.image = await getImage(url);
-
+    this.image = response.image;
     this.$emit("anime", this.image);
   }
 };
@@ -110,15 +122,7 @@ export default {
   height: 100vh;
   border-right: 1px solid hsl(222, 100%, 85%);
   background: white;
-}
-
-.blossom {
-  height: 300px;
-  width: 300px;
-  color: rgba(17, 153, 142, 0.2);
-  position: absolute;
-  bottom: -120px;
-  left: -190px;
+  user-select: none;
 }
 
 .slider {
@@ -126,6 +130,7 @@ export default {
   appearance: none;
   width: 85%;
   height: 5px;
+  margin: 25px 0;
   background: #11998e;
   outline: none;
   opacity: 0.8;
@@ -184,6 +189,7 @@ input[type="color"] {
     width: 100%;
     height: auto;
     border-top: 1px solid hsl(222, 100%, 85%);
+    user-select: none;
   }
 }
 </style>

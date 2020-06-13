@@ -48,6 +48,28 @@ export default {
     };
   },
 
+  watch: {
+    width: {
+      immediate: true,
+      handler(value) {
+        if (value) {
+          this.handleResize();
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+      }
+    },
+
+    height: {
+      immediate: true,
+      handler(value) {
+        if (value) {
+          this.handleResize();
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+      }
+    }
+  },
+
   methods: {
     startDrawing() {
       this.isDrawing = true;
@@ -167,8 +189,6 @@ export default {
 
     this.canvas.height = this.height;
     this.canvas.width = this.width;
-
-    // window.addEventListener("resize", this.handleResize);
 
     EventBus.$on("download", () => {
       const image = this.$refs.canvas.toDataURL("image/png");

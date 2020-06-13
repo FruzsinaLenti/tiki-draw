@@ -4,7 +4,8 @@ import axios from "axios";
 export async function getImage(url) {
   const response = await axios.get(url)
 
-  return response.data.image;
+  return response.data;
+  // return response.data.image;
 
 }
 
