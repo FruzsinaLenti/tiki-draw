@@ -1,14 +1,16 @@
 <template>
-  <canvas
-    ref="canvas"
-    @mousemove="draw"
-    @mousedown="startDrawing"
-    @mouseup="stopDrawing"
-    @mouseout="stopDrawing"
-    @touchmove="draw"
-    @touchstart="startDrawing"
-    @touchend="stopDrawing"
-  ></canvas>
+  <div>
+    <canvas
+      ref="canvas"
+      @mousemove="draw"
+      @mousedown="startDrawing"
+      @mouseup="stopDrawing"
+      @mouseout="stopDrawing"
+      @touchmove="draw"
+      @touchstart="startDrawing"
+      @touchend="stopDrawing"
+    ></canvas>
+  </div>
 </template>
 
 <script>
@@ -44,7 +46,9 @@ export default {
       isDrawing: false,
       lastX: null,
       lastY: null,
-      hue: 0
+      hue: 0,
+      redoList: [],
+      undoList: []
     };
   },
 
@@ -178,6 +182,37 @@ export default {
         this.ctx.drawImage(img, 0, 0);
       };
       img.src = this.src;
+    },
+
+    saveState(list, keepRedo) {
+      keepRedo = keepRedo || false;
+      if (!keepRedo) {
+        this.redoList = [];
+      }
+
+      (list || this.undoList).push(this.$refs.canvas.toDataURL());
+    },
+
+    // undoASD() {
+    //   this.restoreState(this.undoList, this.redoList);
+    // },
+
+    // redoASD() {
+    //   this.restoreState(this.redoList, this.undoList);
+    // },
+
+    restoreState(pop, push) {
+      if (pop.length) {
+        this.saveState(push, true);
+
+        var restoreSt = pop.pop();
+        var img = new Element("img", { src: restoreSt });
+        console.log(img);
+        img.onload = () => {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          this.ctx.drawImage(img, 0, 0);
+        };
+      }
     }
   },
 
@@ -189,6 +224,8 @@ export default {
 
     this.canvas.height = this.height;
     this.canvas.width = this.width;
+
+    this.saveState();
 
     EventBus.$on("download", () => {
       const image = this.$refs.canvas.toDataURL("image/png");
@@ -209,6 +246,10 @@ export default {
         link.href = image;
         link.click();
       });
+    });
+
+    EventBus.$on("undo-line", () => {
+      this.restoreState(this.undoList, this.redoList);
     });
   },
 

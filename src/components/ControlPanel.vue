@@ -28,6 +28,7 @@
     <Button @click="onClickDownload">Download drawing</Button>
     <Button @click="loadRickAndMorty">Load new Rick and Morty</Button>
     <Button @click="loadNewPokemon">Load new Pokemon</Button>
+    <Button @click="undoLine">Undo Line</Button>
     <br />
   </div>
 </template>
@@ -82,6 +83,10 @@ export default {
       } else {
         EventBus.$emit("download-with-image");
       }
+    },
+
+    undoLine() {
+      EventBus.$emit("undo-line");
     },
 
     async loadRickAndMorty() {
