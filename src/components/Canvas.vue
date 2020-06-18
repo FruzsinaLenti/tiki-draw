@@ -5,7 +5,7 @@
       @mousemove="draw"
       @mousedown="startDrawing"
       @mouseup="stopDrawing"
-      @mouseout="stopDrawing"
+      @mouseout="stopDrawingOut"
       @touchmove="draw"
       @touchstart="startDrawing"
       @touchend="stopDrawing"
@@ -54,7 +54,6 @@ export default {
 
   watch: {
     width: {
-      immediate: true,
       handler(value) {
         if (value) {
           this.handleResize();
@@ -64,7 +63,6 @@ export default {
     },
 
     height: {
-      immediate: true,
       handler(value) {
         if (value) {
           this.handleResize();
@@ -77,9 +75,16 @@ export default {
   methods: {
     startDrawing() {
       this.isDrawing = true;
+      this.saveState();
     },
 
     stopDrawing() {
+      this.saveState();
+
+      this.stopDrawingOut();
+    },
+
+    stopDrawingOut() {
       this.isDrawing = false;
       this.lastX = null;
       this.lastY = null;
@@ -184,34 +189,22 @@ export default {
       img.src = this.src;
     },
 
-    saveState(list, keepRedo) {
-      keepRedo = keepRedo || false;
-      if (!keepRedo) {
-        this.redoList = [];
-      }
-
-      (list || this.undoList).push(this.$refs.canvas.toDataURL());
+    saveState() {
+      this.undoList.push(this.canvas.toDataURL());
     },
 
-    // undoASD() {
-    //   this.restoreState(this.undoList, this.redoList);
-    // },
-
-    // redoASD() {
-    //   this.restoreState(this.redoList, this.undoList);
-    // },
-
-    restoreState(pop, push) {
+    restoreState(pop) {
       if (pop.length) {
-        this.saveState(push, true);
+        pop.pop();
+        const restoreSt = pop.pop();
 
-        var restoreSt = pop.pop();
-        var img = new Element("img", { src: restoreSt });
-        console.log(img);
+        const img = new Image();
+
         img.onload = () => {
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
           this.ctx.drawImage(img, 0, 0);
         };
+        img.src = restoreSt;
       }
     }
   },
@@ -224,8 +217,6 @@ export default {
 
     this.canvas.height = this.height;
     this.canvas.width = this.width;
-
-    this.saveState();
 
     EventBus.$on("download", () => {
       const image = this.$refs.canvas.toDataURL("image/png");
